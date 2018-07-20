@@ -37,87 +37,80 @@ import static org.hamcrest.core.Is.is;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-public class IngredientResourceTests
-{
+public class IngredientResourceTests {
 
-    private MockMvc mockMvc;
+  private MockMvc mockMvc;
 
-    private IngredientResource ingredientResource;
+  private IngredientResource ingredientResource;
 
-    @Mock
-    private IngredientService ingredientService;
+  @Mock
+  private IngredientService ingredientService;
 
-    private IngredientMapper ingredientMapper = new IngredientMapper();
-
-
-    @Before
-    public void init()
-    {
-        MockitoAnnotations.initMocks(this);
-
-        ingredientResource = new IngredientResource(ingredientService, ingredientMapper);
-
-        mockMvc = MockMvcBuilders
-            .standaloneSetup(ingredientResource)
-            .build();
-    }
+  private IngredientMapper ingredientMapper = new IngredientMapper();
 
 
-    @Test
-    public void getAllIngredients() throws Exception
-    {
-        List<Ingredient> ingredientList = new ArrayList<>();
-        ingredientList.add(TestUtils.getCheese());
-        ingredientList.add(TestUtils.getMeat());
-        ingredientList.add(TestUtils.getBacon());
+  @Before
+  public void init() {
+    MockitoAnnotations.initMocks(this);
 
-        when(ingredientService.getAll()).thenReturn(ingredientList);
+    ingredientResource = new IngredientResource(ingredientService, ingredientMapper);
 
-
-        mockMvc.perform(get("/api/ingredient"))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andDo(print())
-            .andExpect(jsonPath("$", hasSize(3)))
-            .andExpect(jsonPath("$[0].id", is(5)))
-            .andExpect(jsonPath("$[0].name", is("CHEESE")))
-            .andExpect(jsonPath("$[0].price", is(4)))
-            .andExpect(jsonPath("$[1].id", is(3)))
-            .andExpect(jsonPath("$[1].name", is("MEAT")))
-            .andExpect(jsonPath("$[1].price", is(3)))
-            .andExpect(jsonPath("$[2].id", is(2)))
-            .andExpect(jsonPath("$[2].name", is("BACON")))
-            .andExpect(jsonPath("$[2].price", is(2)));
-
-        verify(ingredientService, times(1)).getAll();
-    }
-
-    @Test
-    public void getOneIngredient() throws Exception
-    {
-
-        when(ingredientService.getById(2L)).thenReturn(TestUtils.getBacon());
+    mockMvc = MockMvcBuilders
+        .standaloneSetup(ingredientResource)
+        .build();
+  }
 
 
-        mockMvc.perform(get("/api/ingredient/2"))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andDo(print())
-            .andExpect(jsonPath("$.id", is(2)))
-            .andExpect(jsonPath("$.name", is("BACON")))
-            .andExpect(jsonPath("$.price", is(2)));
+  @Test
+  public void getAllIngredients() throws Exception {
+    List<Ingredient> ingredientList = new ArrayList<>();
+    ingredientList.add(TestUtils.getCheese());
+    ingredientList.add(TestUtils.getMeat());
+    ingredientList.add(TestUtils.getBacon());
 
-        verify(ingredientService, times(1)).getById(anyLong());
-    }
+    when(ingredientService.getAll()).thenReturn(ingredientList);
 
-    @Test
-    public void getOneIngredientNotFound() throws Exception
-    {
+    mockMvc.perform(get("/api/ingredient"))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andDo(print())
+        .andExpect(jsonPath("$", hasSize(3)))
+        .andExpect(jsonPath("$[0].id", is(5)))
+        .andExpect(jsonPath("$[0].name", is("CHEESE")))
+        .andExpect(jsonPath("$[0].price", is(4)))
+        .andExpect(jsonPath("$[1].id", is(3)))
+        .andExpect(jsonPath("$[1].name", is("MEAT")))
+        .andExpect(jsonPath("$[1].price", is(3)))
+        .andExpect(jsonPath("$[2].id", is(2)))
+        .andExpect(jsonPath("$[2].name", is("BACON")))
+        .andExpect(jsonPath("$[2].price", is(2)));
 
-        mockMvc.perform(get("/api/ingredient/2"))
-            .andExpect(status().isNotFound())
-            .andDo(print());
+    verify(ingredientService, times(1)).getAll();
+  }
 
-        verify(ingredientService, times(1)).getById(anyLong());
-    }
+  @Test
+  public void getOneIngredient() throws Exception {
+
+    when(ingredientService.getById(2L)).thenReturn(TestUtils.getBacon());
+
+    mockMvc.perform(get("/api/ingredient/2"))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+        .andDo(print())
+        .andExpect(jsonPath("$.id", is(2)))
+        .andExpect(jsonPath("$.name", is("BACON")))
+        .andExpect(jsonPath("$.price", is(2)));
+
+    verify(ingredientService, times(1)).getById(anyLong());
+  }
+
+  @Test
+  public void getOneIngredientNotFound() throws Exception {
+
+    mockMvc.perform(get("/api/ingredient/2"))
+        .andExpect(status().isNotFound())
+        .andDo(print());
+
+    verify(ingredientService, times(1)).getById(anyLong());
+  }
 }

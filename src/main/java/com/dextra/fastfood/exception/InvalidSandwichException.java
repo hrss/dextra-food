@@ -8,15 +8,15 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * The type Invalid sandwich exception.
  */
 @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Invalid sandwich.")
-public class InvalidSandwichException extends Exception
-{
-    /**
-     * Instantiates a new Invalid sandwich exception.
-     *
-     * @param message the message
-     * @param args    the args
-     */
-    public InvalidSandwichException(String message, Object... args){
-        super(MessageFormat.format(message, args));
-    }
+public class InvalidSandwichException extends Exception {
+
+  /**
+   * Instantiates a new Invalid sandwich exception.
+   *
+   * @param message the message
+   * @param args the args
+   */
+  public InvalidSandwichException(String message, Object... args) {
+    super(MessageFormat.format(message, args));
+  }
 }

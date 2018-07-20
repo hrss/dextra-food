@@ -13,61 +13,61 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = SandwichTests.class)
-public class SandwichTests
-{
-    @Test
-    public void notEqualNull(){
-        Sandwich sandwich = new Sandwich();
-        assertFalse(sandwich.equals(null));
-    }
+public class SandwichTests {
 
-    @Test
-    public void notEqualDifferentClass(){
-        Sandwich sandwich = new Sandwich();
-        assertFalse(sandwich.equals(new BigDecimal(0)));
-    }
+  @Test
+  public void notEqualNull() {
+    Sandwich sandwich = new Sandwich();
+    assertFalse(sandwich.equals(null));
+  }
 
-    @Test
-    public void notEqualDifferentName(){
-        Sandwich sandwich1 = new Sandwich();
-        Sandwich sandwich2 = new Sandwich();
-        sandwich1.setName("Hello");
-        sandwich2.setName("Not Hello");
+  @Test
+  public void notEqualDifferentClass() {
+    Sandwich sandwich = new Sandwich();
+    assertFalse(sandwich.equals(new BigDecimal(0)));
+  }
 
-        assertFalse(sandwich1.equals(sandwich2));
-    }
+  @Test
+  public void notEqualDifferentName() {
+    Sandwich sandwich1 = new Sandwich();
+    Sandwich sandwich2 = new Sandwich();
+    sandwich1.setName("Hello");
+    sandwich2.setName("Not Hello");
 
-    @Test
-    public void notEqualDifferentId(){
-        Sandwich sandwich1 = new Sandwich();
-        Sandwich sandwich2 = new Sandwich();
-        sandwich1.setName("Hello");
-        sandwich2.setName("Hello");
+    assertFalse(sandwich1.equals(sandwich2));
+  }
 
-        sandwich1.setId(1L);
-        sandwich2.setId(2L);
+  @Test
+  public void notEqualDifferentId() {
+    Sandwich sandwich1 = new Sandwich();
+    Sandwich sandwich2 = new Sandwich();
+    sandwich1.setName("Hello");
+    sandwich2.setName("Hello");
 
-        assertFalse(sandwich1.equals(sandwich2));
-    }
+    sandwich1.setId(1L);
+    sandwich2.setId(2L);
 
-    @Test
-    public void equalSandwiches(){
-        Sandwich sandwich1 = new Sandwich();
-        Sandwich sandwich2 = new Sandwich();
-        sandwich1.setName("Hello");
-        sandwich2.setName("Hello");
+    assertFalse(sandwich1.equals(sandwich2));
+  }
 
-        sandwich1.setId(1L);
-        sandwich2.setId(1L);
+  @Test
+  public void equalSandwiches() {
+    Sandwich sandwich1 = new Sandwich();
+    Sandwich sandwich2 = new Sandwich();
+    sandwich1.setName("Hello");
+    sandwich2.setName("Hello");
 
-        assertTrue(sandwich1.equals(sandwich2));
-    }
+    sandwich1.setId(1L);
+    sandwich2.setId(1L);
 
-    @Test
-    public void hashCodeTest(){
-        Sandwich sandwich = new Sandwich();
-        sandwich.setId(1L);
-        assertEquals(Objects.hashCode(1L), sandwich.hashCode());
-    }
+    assertTrue(sandwich1.equals(sandwich2));
+  }
+
+  @Test
+  public void hashCodeTest() {
+    Sandwich sandwich = new Sandwich();
+    sandwich.setId(1L);
+    assertEquals(Objects.hashCode(1L), sandwich.hashCode());
+  }
 
 }

@@ -16,40 +16,40 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = IngredientServiceTests.class)
-public class IngredientServiceTests
-{
-    @Mock
-    private IngredientRepository ingredientRepository;
+public class IngredientServiceTests {
 
-    private IngredientService ingredientService;
+  @Mock
+  private IngredientRepository ingredientRepository;
 
-    @Test
-    public void getIngredientById(){
-        ingredientService = new IngredientService(ingredientRepository);
+  private IngredientService ingredientService;
 
-        when(ingredientRepository.getOne(1L)).thenReturn(TestUtils.getLettuce());
+  @Test
+  public void getIngredientById() {
+    ingredientService = new IngredientService(ingredientRepository);
 
-        Ingredient ingredient = ingredientService.getById(1L);
+    when(ingredientRepository.getOne(1L)).thenReturn(TestUtils.getLettuce());
 
-        assertEquals(TestUtils.getLettuce(), ingredient);
-    }
+    Ingredient ingredient = ingredientService.getById(1L);
 
-    @Test
-    public void getAllIngredients(){
-        ingredientService = new IngredientService(ingredientRepository);
+    assertEquals(TestUtils.getLettuce(), ingredient);
+  }
 
-        List<Ingredient> ingredientList = new ArrayList<>();
-        ingredientList.add(TestUtils.getCheese());
-        ingredientList.add(TestUtils.getMeat());
-        ingredientList.add(TestUtils.getBacon());
+  @Test
+  public void getAllIngredients() {
+    ingredientService = new IngredientService(ingredientRepository);
 
-        when(ingredientRepository.findAll()).thenReturn(ingredientList);
+    List<Ingredient> ingredientList = new ArrayList<>();
+    ingredientList.add(TestUtils.getCheese());
+    ingredientList.add(TestUtils.getMeat());
+    ingredientList.add(TestUtils.getBacon());
 
-        List<Ingredient> ingredients = ingredientService.getAll();
+    when(ingredientRepository.findAll()).thenReturn(ingredientList);
 
-        assertEquals(TestUtils.getCheese(), ingredients.get(0));
-        assertEquals(TestUtils.getMeat(), ingredients.get(1));
-        assertEquals(TestUtils.getBacon(), ingredients.get(2));
+    List<Ingredient> ingredients = ingredientService.getAll();
 
-    }
+    assertEquals(TestUtils.getCheese(), ingredients.get(0));
+    assertEquals(TestUtils.getMeat(), ingredients.get(1));
+    assertEquals(TestUtils.getBacon(), ingredients.get(2));
+
+  }
 }

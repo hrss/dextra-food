@@ -7,17 +7,17 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * The type Sandwich ingredient pk. It's the key
- * of the many to many relationship between sandwiches and ingredients.
+ * The type Sandwich ingredient pk. It's the key of the many to many relationship between sandwiches
+ * and ingredients.
  */
 @Embeddable
 @Getter
 @Setter
-public class SandwichIngredientPK implements Serializable
-{
-    @Column(name = "sandwich_id")
-    private Long sandwichId;
+public class SandwichIngredientPK implements Serializable {
 
-    @Column(name = "ingredient_id")
-    private Long ingredientId;
+  @Column(name = "sandwich_id")
+  private Long sandwichId;
+
+  @Column(name = "ingredient_id")
+  private Long ingredientId;
 }

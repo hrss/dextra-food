@@ -34,78 +34,71 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Getter
 @Setter
-public class Sandwich
-{
-    private static final long serialVersionUID = 3L;
+public class Sandwich {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+  private static final long serialVersionUID = 3L;
 
-    @Column(nullable = false)
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private ZonedDateTime dateCreated;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
 
-    @Column(nullable = false)
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private ZonedDateTime dateUpdated;
+  @Column(nullable = false)
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+  private ZonedDateTime dateCreated;
 
-    @NotNull
-    @Size(min = 0, max = 50)
-    @Column(length = 50)
-    private String name;
+  @Column(nullable = false)
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+  private ZonedDateTime dateUpdated;
 
-    @OneToMany(mappedBy = "sandwich")
-    private Set<SandwichIngredient> sandwichIngredients = new HashSet<SandwichIngredient>();
+  @NotNull
+  @Size(min = 0, max = 50)
+  @Column(length = 50)
+  private String name;
+
+  @OneToMany(mappedBy = "sandwich")
+  private Set<SandwichIngredient> sandwichIngredients = new HashSet<SandwichIngredient>();
 
 
-    /**
-     * Gets ingredient map with ingredient as key and quantity as value.
-     *
-     * @return the ingredient map
-     */
-    public Map<Ingredient, Long> getIngredientMap()
-    {
-        Map<Ingredient, Long> ingredients = new HashMap<>();
-        sandwichIngredients.forEach(sI -> {
-            ingredients.put(sI.getIngredient(), sI.getQuantity());
-        });
-        return ingredients;
+  /**
+   * Gets ingredient map with ingredient as key and quantity as value.
+   *
+   * @return the ingredient map
+   */
+  public Map<Ingredient, Long> getIngredientMap() {
+    Map<Ingredient, Long> ingredients = new HashMap<>();
+    sandwichIngredients.forEach(sI -> {
+      ingredients.put(sI.getIngredient(), sI.getQuantity());
+    });
+    return ingredients;
+  }
+
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(id);
+  }
+
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null) {
+      return false;
     }
 
-
-    @Override
-    public int hashCode()
-    {
-        return Objects.hashCode(id);
+    if (!Sandwich.class.isAssignableFrom(obj.getClass())) {
+      return false;
     }
 
+    final Sandwich other = (Sandwich) obj;
 
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (obj == null)
-        {
-            return false;
-        }
-
-        if (!Sandwich.class.isAssignableFrom(obj.getClass()))
-        {
-            return false;
-        }
-
-        final Sandwich other = (Sandwich) obj;
-
-        if ((this.name == null) ? (other.getName() != null) : !this.name.equals(other.getName()))
-        {
-            return false;
-        }
-
-        if (!this.getId().equals(other.getId()))
-        {
-            return false;
-        }
-
-        return true;
+    if ((this.name == null) ? (other.getName() != null) : !this.name.equals(other.getName())) {
+      return false;
     }
+
+    if (!this.getId().equals(other.getId())) {
+      return false;
+    }
+
+    return true;
+  }
 }

@@ -42,58 +42,54 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-public class PriceResourceTests
-{
+public class PriceResourceTests {
 
-    private MockMvc mockMvc;
+  private MockMvc mockMvc;
 
-    private PriceResource priceResource;
+  private PriceResource priceResource;
 
-    @Mock
-    private PriceService priceService;
+  @Mock
+  private PriceService priceService;
 
-    @Mock
-    private IngredientRepository ingredientRepository;
+  @Mock
+  private IngredientRepository ingredientRepository;
 
-    @Mock
-    private SandwichMapper mapper;
+  @Mock
+  private SandwichMapper mapper;
 
 
-    @Before
-    public void init()
-    {
-        MockitoAnnotations.initMocks(this);
+  @Before
+  public void init() {
+    MockitoAnnotations.initMocks(this);
 
-        priceResource = new PriceResource(priceService, mapper);
+    priceResource = new PriceResource(priceService, mapper);
 
-        mockMvc = MockMvcBuilders
-            .standaloneSetup(priceResource)
-            .build();
+    mockMvc = MockMvcBuilders
+        .standaloneSetup(priceResource)
+        .build();
+  }
+
+
+  @Test
+  public void getPriceTest() throws Exception {
+    when(priceService.getSandwichPrice(any(Sandwich.class))).thenReturn(new BigDecimal(12.0));
+    when(mapper.fromDto(any(SandwichDto.class))).thenReturn(new Sandwich());
+
+    mockMvc.perform(
+        post("/api/price")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(asJsonString(new SandwichDto())))
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$", is(12)));
+
+  }
+
+  public static String asJsonString(final Object obj) {
+    try {
+      return new ObjectMapper().writeValueAsString(obj);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
     }
-
-
-    @Test
-    public void getPriceTest() throws Exception
-    {
-        when(priceService.getSandwichPrice(any(Sandwich.class))).thenReturn(new BigDecimal(12.0));
-        when(mapper.fromDto(any(SandwichDto.class))).thenReturn(new Sandwich());
-
-
-        mockMvc.perform(
-            post("/api/price")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(new SandwichDto())))
-            .andDo(print())
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$", is(12)));
-
-    }
-
-    public static String asJsonString(final Object obj) {
-        try {
-            return new ObjectMapper().writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+  }
 }

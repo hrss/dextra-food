@@ -13,61 +13,61 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = IngredientTests.class)
-public class IngredientTests
-{
-    @Test
-    public void notEqualNull(){
-        Ingredient ingredient = new Ingredient();
-        assertFalse(ingredient.equals(null));
-    }
+public class IngredientTests {
 
-    @Test
-    public void notEqualDifferentClass(){
-        Ingredient ingredient = new Ingredient();
-        assertFalse(ingredient.equals(new BigDecimal(0)));
-    }
+  @Test
+  public void notEqualNull() {
+    Ingredient ingredient = new Ingredient();
+    assertFalse(ingredient.equals(null));
+  }
 
-    @Test
-    public void notEqualDifferentName(){
-        Ingredient ingredient1 = new Ingredient();
-        Ingredient ingredient2 = new Ingredient();
-        ingredient1.setName("Hello");
-        ingredient2.setName("Not Hello");
+  @Test
+  public void notEqualDifferentClass() {
+    Ingredient ingredient = new Ingredient();
+    assertFalse(ingredient.equals(new BigDecimal(0)));
+  }
 
-        assertFalse(ingredient1.equals(ingredient2));
-    }
+  @Test
+  public void notEqualDifferentName() {
+    Ingredient ingredient1 = new Ingredient();
+    Ingredient ingredient2 = new Ingredient();
+    ingredient1.setName("Hello");
+    ingredient2.setName("Not Hello");
 
-    @Test
-    public void notEqualDifferentId(){
-        Ingredient ingredient1 = new Ingredient();
-        Ingredient ingredient2 = new Ingredient();
-        ingredient1.setName("Hello");
-        ingredient2.setName("Hello");
+    assertFalse(ingredient1.equals(ingredient2));
+  }
 
-        ingredient1.setId(1L);
-        ingredient2.setId(2L);
+  @Test
+  public void notEqualDifferentId() {
+    Ingredient ingredient1 = new Ingredient();
+    Ingredient ingredient2 = new Ingredient();
+    ingredient1.setName("Hello");
+    ingredient2.setName("Hello");
 
-        assertFalse(ingredient1.equals(ingredient2));
-    }
+    ingredient1.setId(1L);
+    ingredient2.setId(2L);
 
-    @Test
-    public void equalIngredients(){
-        Ingredient ingredient1 = new Ingredient();
-        Ingredient ingredient2 = new Ingredient();
-        ingredient1.setName("Hello");
-        ingredient2.setName("Hello");
+    assertFalse(ingredient1.equals(ingredient2));
+  }
 
-        ingredient1.setId(1L);
-        ingredient2.setId(1L);
+  @Test
+  public void equalIngredients() {
+    Ingredient ingredient1 = new Ingredient();
+    Ingredient ingredient2 = new Ingredient();
+    ingredient1.setName("Hello");
+    ingredient2.setName("Hello");
 
-        assertTrue(ingredient1.equals(ingredient2));
-    }
+    ingredient1.setId(1L);
+    ingredient2.setId(1L);
 
-    @Test
-    public void hashCodeTest(){
-        Ingredient ingredient = new Ingredient();
-        ingredient.setId(1L);
-        assertEquals(Objects.hashCode(1L), ingredient.hashCode());
-    }
+    assertTrue(ingredient1.equals(ingredient2));
+  }
+
+  @Test
+  public void hashCodeTest() {
+    Ingredient ingredient = new Ingredient();
+    ingredient.setId(1L);
+    assertEquals(Objects.hashCode(1L), ingredient.hashCode());
+  }
 
 }

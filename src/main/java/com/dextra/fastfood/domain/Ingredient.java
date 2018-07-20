@@ -29,67 +29,61 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Getter
 @Setter
-public class Ingredient
-{
-    private static final long serialVersionUID = 1L;
+public class Ingredient {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+  private static final long serialVersionUID = 1L;
 
-    @Column(nullable = false)
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private ZonedDateTime dateCreated;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
 
-    @Column(nullable = false)
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private ZonedDateTime dateUpdated;
+  @Column(nullable = false)
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+  private ZonedDateTime dateCreated;
 
-    @NotNull
-    @Size(min = 0, max = 50)
-    @Column(length = 50)
-    private String name;
+  @Column(nullable = false)
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+  private ZonedDateTime dateUpdated;
 
-    @NotNull
-    @Column
-    private BigDecimal price;
+  @NotNull
+  @Size(min = 0, max = 50)
+  @Column(length = 50)
+  private String name;
 
-    @OneToMany(mappedBy = "ingredient")
-    private Set<SandwichIngredient> sandwichIngredients = new HashSet<SandwichIngredient>();
+  @NotNull
+  @Column
+  private BigDecimal price;
+
+  @OneToMany(mappedBy = "ingredient")
+  private Set<SandwichIngredient> sandwichIngredients = new HashSet<SandwichIngredient>();
 
 
-    @Override
-    public int hashCode()
-    {
-        return Objects.hashCode(id);
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(id);
+  }
+
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null) {
+      return false;
     }
 
-
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (obj == null)
-        {
-            return false;
-        }
-
-        if (!Ingredient.class.isAssignableFrom(obj.getClass()))
-        {
-            return false;
-        }
-
-        final Ingredient other = (Ingredient) obj;
-
-        if ((this.name == null) ? (other.getName() != null) : !this.name.equals(other.getName()))
-        {
-            return false;
-        }
-
-        if (!this.getId().equals(other.getId()))
-        {
-            return false;
-        }
-
-        return true;
+    if (!Ingredient.class.isAssignableFrom(obj.getClass())) {
+      return false;
     }
+
+    final Ingredient other = (Ingredient) obj;
+
+    if ((this.name == null) ? (other.getName() != null) : !this.name.equals(other.getName())) {
+      return false;
+    }
+
+    if (!this.getId().equals(other.getId())) {
+      return false;
+    }
+
+    return true;
+  }
 }

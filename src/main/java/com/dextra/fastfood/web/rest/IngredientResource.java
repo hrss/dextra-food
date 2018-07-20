@@ -22,60 +22,58 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/ingredient")
 @Service
-public class IngredientResource
-{
-    private IngredientService ingredientService;
+public class IngredientResource {
 
-    private IngredientMapper mapper;
+  private IngredientService ingredientService;
 
-
-    /**
-     * Instantiates a new Ingredient resource.
-     *
-     * @param ingredientService the ingredient service
-     * @param ingredientMapper  the ingredient mapper
-     */
-    @Autowired
-    public IngredientResource(IngredientService ingredientService, IngredientMapper ingredientMapper)
-    {
-        this.ingredientService = ingredientService;
-        this.mapper = ingredientMapper;
-    }
+  private IngredientMapper mapper;
 
 
-    /**
-     * Gets all ingredients.
-     *
-     * @return the all ingredients
-     */
-    @GetMapping("")
-    public ResponseEntity<List<IngredientDto>> getAllIngredients()
-    {
-        List<Ingredient> ingredient = ingredientService.getAll();
-
-        return Optional.ofNullable(ingredient)
-            .map(result -> new ResponseEntity<List<IngredientDto>>(
-                mapper.toDtoList(result),
-                HttpStatus.OK))
-            .orElse(new ResponseEntity<List<IngredientDto>>(HttpStatus.NOT_FOUND));
-    }
+  /**
+   * Instantiates a new Ingredient resource.
+   *
+   * @param ingredientService the ingredient service
+   * @param ingredientMapper the ingredient mapper
+   */
+  @Autowired
+  public IngredientResource(IngredientService ingredientService,
+      IngredientMapper ingredientMapper) {
+    this.ingredientService = ingredientService;
+    this.mapper = ingredientMapper;
+  }
 
 
-    /**
-     * Gets ingredient by id.
-     *
-     * @param ingredientId the ingredient id
-     * @return the ingredient
-     */
-    @GetMapping("/{ingredientId}")
-    public ResponseEntity<IngredientDto> getIngredient(@Valid @PathVariable long ingredientId)
-    {
-        Ingredient ingredient = ingredientService.getById(ingredientId);
+  /**
+   * Gets all ingredients.
+   *
+   * @return the all ingredients
+   */
+  @GetMapping("")
+  public ResponseEntity<List<IngredientDto>> getAllIngredients() {
+    List<Ingredient> ingredient = ingredientService.getAll();
 
-        return Optional.ofNullable(ingredient)
-            .map(result -> new ResponseEntity<IngredientDto>(
-                mapper.toDto(result),
-                HttpStatus.OK))
-            .orElse(new ResponseEntity<IngredientDto>(HttpStatus.NOT_FOUND));
-    }
+    return Optional.ofNullable(ingredient)
+        .map(result -> new ResponseEntity<List<IngredientDto>>(
+            mapper.toDtoList(result),
+            HttpStatus.OK))
+        .orElse(new ResponseEntity<List<IngredientDto>>(HttpStatus.NOT_FOUND));
+  }
+
+
+  /**
+   * Gets ingredient by id.
+   *
+   * @param ingredientId the ingredient id
+   * @return the ingredient
+   */
+  @GetMapping("/{ingredientId}")
+  public ResponseEntity<IngredientDto> getIngredient(@Valid @PathVariable long ingredientId) {
+    Ingredient ingredient = ingredientService.getById(ingredientId);
+
+    return Optional.ofNullable(ingredient)
+        .map(result -> new ResponseEntity<IngredientDto>(
+            mapper.toDto(result),
+            HttpStatus.OK))
+        .orElse(new ResponseEntity<IngredientDto>(HttpStatus.NOT_FOUND));
+  }
 }

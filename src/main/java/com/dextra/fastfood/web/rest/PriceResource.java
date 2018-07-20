@@ -23,45 +23,44 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 @Service
-public class PriceResource
-{
-    private final Logger log = LoggerFactory.getLogger(PriceResource.class);
+public class PriceResource {
 
-    private final PriceService priceService;
+  private final Logger log = LoggerFactory.getLogger(PriceResource.class);
 
-    private final SandwichMapper sandwichMapper;
+  private final PriceService priceService;
 
-
-    /**
-     * Instantiates a new Price resource.
-     *
-     * @param priceService   the price service
-     * @param sandwichMapper the sandwich mapper
-     */
-    @Autowired
-    public PriceResource(final PriceService priceService, final SandwichMapper sandwichMapper)
-    {
-        this.priceService = priceService;
-        this.sandwichMapper = sandwichMapper;
-    }
+  private final SandwichMapper sandwichMapper;
 
 
-    /**
-     * Gets the price of a sandwich.
-     *
-     * @param sandwich the sandwich
-     * @return the sandwich price
-     * @throws InvalidSandwichException if the sandwich has no ingredients or id
-     */
-    @RequestMapping(value = "/price",
-        method = RequestMethod.POST,
-        produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<BigDecimal> getPrice(@RequestBody SandwichDto sandwich) throws InvalidSandwichException
-    {
-        log.debug("REST request get a sandwich price : {}", sandwich);
+  /**
+   * Instantiates a new Price resource.
+   *
+   * @param priceService the price service
+   * @param sandwichMapper the sandwich mapper
+   */
+  @Autowired
+  public PriceResource(final PriceService priceService, final SandwichMapper sandwichMapper) {
+    this.priceService = priceService;
+    this.sandwichMapper = sandwichMapper;
+  }
 
-        BigDecimal price = priceService.getSandwichPrice(sandwichMapper.fromDto(sandwich));
-        return ResponseEntity.ok().body(price);
-    }
+
+  /**
+   * Gets the price of a sandwich.
+   *
+   * @param sandwich the sandwich
+   * @return the sandwich price
+   * @throws InvalidSandwichException if the sandwich has no ingredients or id
+   */
+  @RequestMapping(value = "/price",
+      method = RequestMethod.POST,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<BigDecimal> getPrice(@RequestBody SandwichDto sandwich)
+      throws InvalidSandwichException {
+    log.debug("REST request get a sandwich price : {}", sandwich);
+
+    BigDecimal price = priceService.getSandwichPrice(sandwichMapper.fromDto(sandwich));
+    return ResponseEntity.ok().body(price);
+  }
 
 }

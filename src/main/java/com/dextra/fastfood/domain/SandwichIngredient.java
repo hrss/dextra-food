@@ -15,10 +15,9 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
- * The type Sandwich ingredient.
- * It serves as a middle man in the many to many relationship
- * that exists between sandwiches and ingredients.
- * It also holds the quantity of a certain ingredient in a sandwich.
+ * The type Sandwich ingredient. It serves as a middle man in the many to many relationship that
+ * exists between sandwiches and ingredients. It also holds the quantity of a certain ingredient in
+ * a sandwich.
  */
 @Entity
 @Table(name = "sandwich_ingredient")
@@ -26,29 +25,29 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SandwichIngredient
-{
-    @EmbeddedId
-    private SandwichIngredientPK id;
+public class SandwichIngredient {
 
-    @Column(nullable = false)
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private ZonedDateTime dateCreated;
+  @EmbeddedId
+  private SandwichIngredientPK id;
 
-    @Column(nullable = false)
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private ZonedDateTime dateUpdated;
+  @Column(nullable = false)
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+  private ZonedDateTime dateCreated;
 
-    @ManyToOne
-    @MapsId("sandwich_id")
-    @JoinColumn(name = "SANDWICH_ID")
-    private Sandwich sandwich;
+  @Column(nullable = false)
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+  private ZonedDateTime dateUpdated;
 
-    @ManyToOne
-    @MapsId("ingredient_id")
-    @JoinColumn(name = "INGREDIENT_ID")
-    private Ingredient ingredient;
+  @ManyToOne
+  @MapsId("sandwich_id")
+  @JoinColumn(name = "SANDWICH_ID")
+  private Sandwich sandwich;
 
-    @Column
-    private Long quantity;
+  @ManyToOne
+  @MapsId("ingredient_id")
+  @JoinColumn(name = "INGREDIENT_ID")
+  private Ingredient ingredient;
+
+  @Column
+  private Long quantity;
 }

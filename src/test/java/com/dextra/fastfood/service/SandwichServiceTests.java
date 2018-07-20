@@ -16,40 +16,40 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = SandwichServiceTests.class)
-public class SandwichServiceTests
-{
-    @Mock
-    private SandwichRepository sandwichRepository;
+public class SandwichServiceTests {
 
-    private SandwichService sandwichService;
+  @Mock
+  private SandwichRepository sandwichRepository;
 
-    @Test
-    public void getSandwichById(){
-        sandwichService = new SandwichService(sandwichRepository);
+  private SandwichService sandwichService;
 
-        when(sandwichRepository.getOne(1L)).thenReturn(TestUtils.createSandwich());
+  @Test
+  public void getSandwichById() {
+    sandwichService = new SandwichService(sandwichRepository);
 
-        Sandwich sandwich = sandwichService.getById(1L);
+    when(sandwichRepository.getOne(1L)).thenReturn(TestUtils.createSandwich());
 
-        assertEquals(TestUtils.createSandwich(), sandwich);
-    }
+    Sandwich sandwich = sandwichService.getById(1L);
 
-    @Test
-    public void getAllSandwiches(){
-        sandwichService = new SandwichService(sandwichRepository);
+    assertEquals(TestUtils.createSandwich(), sandwich);
+  }
 
-        List<Sandwich> sandwichList = new ArrayList<>();
-        sandwichList.add(TestUtils.createCheeseSandwich());
-        sandwichList.add(TestUtils.createLightSandwich());
-        sandwichList.add(TestUtils.createMeatSandwich());
+  @Test
+  public void getAllSandwiches() {
+    sandwichService = new SandwichService(sandwichRepository);
 
-        when(sandwichRepository.findAll()).thenReturn(sandwichList);
+    List<Sandwich> sandwichList = new ArrayList<>();
+    sandwichList.add(TestUtils.createCheeseSandwich());
+    sandwichList.add(TestUtils.createLightSandwich());
+    sandwichList.add(TestUtils.createMeatSandwich());
 
-        List<Sandwich> sandwichs = sandwichService.getAll();
+    when(sandwichRepository.findAll()).thenReturn(sandwichList);
 
-        assertEquals(TestUtils.createCheeseSandwich(), sandwichs.get(0));
-        assertEquals(TestUtils.createLightSandwich(), sandwichs.get(1));
-        assertEquals(TestUtils.createMeatSandwich(), sandwichs.get(2));
+    List<Sandwich> sandwichs = sandwichService.getAll();
 
-    }
+    assertEquals(TestUtils.createCheeseSandwich(), sandwichs.get(0));
+    assertEquals(TestUtils.createLightSandwich(), sandwichs.get(1));
+    assertEquals(TestUtils.createMeatSandwich(), sandwichs.get(2));
+
+  }
 }

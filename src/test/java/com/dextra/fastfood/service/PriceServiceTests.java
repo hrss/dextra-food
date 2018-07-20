@@ -24,158 +24,166 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = PriceServiceTests.class)
-public class PriceServiceTests
-{
+public class PriceServiceTests {
 
-    @Mock
-    private IngredientRepository ingredientRepository;
+  @Mock
+  private IngredientRepository ingredientRepository;
 
-    @Mock
-    private SandwichRepository sandwichRepository;
+  @Mock
+  private SandwichRepository sandwichRepository;
 
-    private PriceService priceService;
-
-
-    @Before
-    public void initMocks()
-    {
-        MockitoAnnotations.initMocks(this);
-    }
+  private PriceService priceService;
 
 
-    @Test
-    public void getSandwichPriceWithSandwichIdNoOfferTest() throws InvalidSandwichException
-    {
-        priceService = new PriceService(sandwichRepository, ingredientRepository);
-        Sandwich sandwich = new Sandwich();
-        sandwich.setId(1L);
-        Sandwich returnSandwich = TestUtils.createSandwich();
-        when(sandwichRepository.findById(1L)).thenReturn(Optional.of(returnSandwich));
-        BigDecimal price = priceService.getSandwichPrice(sandwich);
-        price = price.setScale(2, RoundingMode.HALF_UP);
-        assertEquals(new BigDecimal(9).setScale(2, RoundingMode.HALF_UP), price);
-    }
+  @Before
+  public void initMocks() {
+    MockitoAnnotations.initMocks(this);
+  }
 
 
-    @Test
-    public void getSandwichPriceWithSandwichIdMeatOfferTest() throws InvalidSandwichException
-    {
-        priceService = new PriceService(sandwichRepository, ingredientRepository);
-        Sandwich sandwich = new Sandwich();
-        sandwich.setId(1L);
-        Sandwich returnSandwich = TestUtils.createMeatSandwich();
-
-        when(sandwichRepository.findById(1L)).thenReturn(Optional.of(returnSandwich));
-
-        when(ingredientRepository.getOne(TestUtils.Ingredients.BACON.getId())).thenReturn(TestUtils.getBacon());
-        when(ingredientRepository.getOne(TestUtils.Ingredients.LETTUCE.getId())).thenReturn(TestUtils.getLettuce());
-        when(ingredientRepository.getOne(TestUtils.Ingredients.MEAT.getId())).thenReturn(TestUtils.getMeat());
-        when(ingredientRepository.getOne(TestUtils.Ingredients.CHEESE.getId())).thenReturn(TestUtils.getCheese());
-
-        BigDecimal price = priceService.getSandwichPrice(sandwich);
-        price = price.setScale(2, RoundingMode.HALF_UP);
-
-        assertEquals(new BigDecimal(17).setScale(2, RoundingMode.HALF_UP), price);
-    }
+  @Test
+  public void getSandwichPriceWithSandwichIdNoOfferTest() throws InvalidSandwichException {
+    priceService = new PriceService(sandwichRepository, ingredientRepository);
+    Sandwich sandwich = new Sandwich();
+    sandwich.setId(1L);
+    Sandwich returnSandwich = TestUtils.createSandwich();
+    when(sandwichRepository.findById(1L)).thenReturn(Optional.of(returnSandwich));
+    BigDecimal price = priceService.getSandwichPrice(sandwich);
+    price = price.setScale(2, RoundingMode.HALF_UP);
+    assertEquals(new BigDecimal(9).setScale(2, RoundingMode.HALF_UP), price);
+  }
 
 
-    @Test
-    public void getSandwichPriceWithSandwichIdCheeseOfferTest() throws InvalidSandwichException
-    {
-        priceService = new PriceService(sandwichRepository, ingredientRepository);
-        Sandwich sandwich = new Sandwich();
-        sandwich.setId(1L);
+  @Test
+  public void getSandwichPriceWithSandwichIdMeatOfferTest() throws InvalidSandwichException {
+    priceService = new PriceService(sandwichRepository, ingredientRepository);
+    Sandwich sandwich = new Sandwich();
+    sandwich.setId(1L);
+    Sandwich returnSandwich = TestUtils.createMeatSandwich();
 
-        when(sandwichRepository.findById(1L)).thenReturn(Optional.of(TestUtils.createCheeseSandwich()));
+    when(sandwichRepository.findById(1L)).thenReturn(Optional.of(returnSandwich));
 
-        when(ingredientRepository.getOne(TestUtils.Ingredients.BACON.getId())).thenReturn(TestUtils.getBacon());
-        when(ingredientRepository.getOne(TestUtils.Ingredients.LETTUCE.getId())).thenReturn(TestUtils.getLettuce());
-        when(ingredientRepository.getOne(TestUtils.Ingredients.MEAT.getId())).thenReturn(TestUtils.getMeat());
-        when(ingredientRepository.getOne(TestUtils.Ingredients.CHEESE.getId())).thenReturn(TestUtils.getCheese());
+    when(ingredientRepository.getOne(TestUtils.Ingredients.BACON.getId()))
+        .thenReturn(TestUtils.getBacon());
+    when(ingredientRepository.getOne(TestUtils.Ingredients.LETTUCE.getId()))
+        .thenReturn(TestUtils.getLettuce());
+    when(ingredientRepository.getOne(TestUtils.Ingredients.MEAT.getId()))
+        .thenReturn(TestUtils.getMeat());
+    when(ingredientRepository.getOne(TestUtils.Ingredients.CHEESE.getId()))
+        .thenReturn(TestUtils.getCheese());
 
-        BigDecimal price = priceService.getSandwichPrice(sandwich);
-        price = price.setScale(2, RoundingMode.HALF_UP);
-        assertEquals(new BigDecimal(13).setScale(2, RoundingMode.HALF_UP), price);
-    }
+    BigDecimal price = priceService.getSandwichPrice(sandwich);
+    price = price.setScale(2, RoundingMode.HALF_UP);
 
-
-    @Test
-    public void getSandwichPriceWithSandwichIdLightOfferTest() throws InvalidSandwichException
-    {
-        priceService = new PriceService(sandwichRepository, ingredientRepository);
-        Sandwich sandwich = new Sandwich();
-        sandwich.setId(1L);
-
-        when(sandwichRepository.findById(1L)).thenReturn(Optional.of(TestUtils.createLightSandwich()));
-
-        when(ingredientRepository.getOne(TestUtils.Ingredients.BACON.getId())).thenReturn(TestUtils.getBacon());
-        when(ingredientRepository.getOne(TestUtils.Ingredients.LETTUCE.getId())).thenReturn(TestUtils.getLettuce());
-        when(ingredientRepository.getOne(TestUtils.Ingredients.MEAT.getId())).thenReturn(TestUtils.getMeat());
-        when(ingredientRepository.getOne(TestUtils.Ingredients.CHEESE.getId())).thenReturn(TestUtils.getCheese());
-
-        BigDecimal price = priceService.getSandwichPrice(sandwich);
-        price = price.setScale(2, RoundingMode.HALF_UP);
-        assertEquals(new BigDecimal(10.80).setScale(2, RoundingMode.HALF_UP), price);
-    }
+    assertEquals(new BigDecimal(17).setScale(2, RoundingMode.HALF_UP), price);
+  }
 
 
-    @Test
-    public void getSandwichPriceWithSandwichIdAllOffersTest() throws InvalidSandwichException
-    {
-        priceService = new PriceService(sandwichRepository, ingredientRepository);
-        Sandwich sandwich = new Sandwich();
-        sandwich.setId(1L);
+  @Test
+  public void getSandwichPriceWithSandwichIdCheeseOfferTest() throws InvalidSandwichException {
+    priceService = new PriceService(sandwichRepository, ingredientRepository);
+    Sandwich sandwich = new Sandwich();
+    sandwich.setId(1L);
 
-        when(sandwichRepository.findById(1L)).thenReturn(Optional.of(TestUtils.createAllOffersSandwich()));
+    when(sandwichRepository.findById(1L)).thenReturn(Optional.of(TestUtils.createCheeseSandwich()));
 
-        when(ingredientRepository.getOne(TestUtils.Ingredients.BACON.getId())).thenReturn(TestUtils.getBacon());
-        when(ingredientRepository.getOne(TestUtils.Ingredients.LETTUCE.getId())).thenReturn(TestUtils.getLettuce());
-        when(ingredientRepository.getOne(TestUtils.Ingredients.MEAT.getId())).thenReturn(TestUtils.getMeat());
-        when(ingredientRepository.getOne(TestUtils.Ingredients.CHEESE.getId())).thenReturn(TestUtils.getCheese());
+    when(ingredientRepository.getOne(TestUtils.Ingredients.BACON.getId()))
+        .thenReturn(TestUtils.getBacon());
+    when(ingredientRepository.getOne(TestUtils.Ingredients.LETTUCE.getId()))
+        .thenReturn(TestUtils.getLettuce());
+    when(ingredientRepository.getOne(TestUtils.Ingredients.MEAT.getId()))
+        .thenReturn(TestUtils.getMeat());
+    when(ingredientRepository.getOne(TestUtils.Ingredients.CHEESE.getId()))
+        .thenReturn(TestUtils.getCheese());
 
-        BigDecimal price = priceService.getSandwichPrice(sandwich);
-        price = price.setScale(2, RoundingMode.HALF_UP);
-        assertEquals(new BigDecimal(17.1).setScale(2, RoundingMode.HALF_UP), price);
-    }
-
-
-    @Test
-    public void getSandwichPriceWithIngredientsSandwichNullIdTest() throws InvalidSandwichException
-    {
-        priceService = new PriceService(sandwichRepository, ingredientRepository);
-        Sandwich sandwich = TestUtils.createSandwich();
-        sandwich.setId(null);
-
-        BigDecimal price = priceService.getSandwichPrice(sandwich);
-        price = price.setScale(2, RoundingMode.HALF_UP);
-        assertEquals(new BigDecimal(9).setScale(2, RoundingMode.HALF_UP), price);
-    }
+    BigDecimal price = priceService.getSandwichPrice(sandwich);
+    price = price.setScale(2, RoundingMode.HALF_UP);
+    assertEquals(new BigDecimal(13).setScale(2, RoundingMode.HALF_UP), price);
+  }
 
 
-    @Test
-    public void getSandwichPriceWithIngredientsSandwichNotFound() throws InvalidSandwichException
-    {
-        priceService = new PriceService(sandwichRepository, ingredientRepository);
-        Sandwich sandwich = TestUtils.createSandwich();
-        sandwich.setId(1L);
+  @Test
+  public void getSandwichPriceWithSandwichIdLightOfferTest() throws InvalidSandwichException {
+    priceService = new PriceService(sandwichRepository, ingredientRepository);
+    Sandwich sandwich = new Sandwich();
+    sandwich.setId(1L);
 
-        when(sandwichRepository.findById(1L)).thenReturn(Optional.empty());
-        BigDecimal price = priceService.getSandwichPrice(sandwich);
-        price = price.setScale(2, RoundingMode.HALF_UP);
-        assertEquals(new BigDecimal(9).setScale(2, RoundingMode.HALF_UP), price);
-    }
+    when(sandwichRepository.findById(1L)).thenReturn(Optional.of(TestUtils.createLightSandwich()));
+
+    when(ingredientRepository.getOne(TestUtils.Ingredients.BACON.getId()))
+        .thenReturn(TestUtils.getBacon());
+    when(ingredientRepository.getOne(TestUtils.Ingredients.LETTUCE.getId()))
+        .thenReturn(TestUtils.getLettuce());
+    when(ingredientRepository.getOne(TestUtils.Ingredients.MEAT.getId()))
+        .thenReturn(TestUtils.getMeat());
+    when(ingredientRepository.getOne(TestUtils.Ingredients.CHEESE.getId()))
+        .thenReturn(TestUtils.getCheese());
+
+    BigDecimal price = priceService.getSandwichPrice(sandwich);
+    price = price.setScale(2, RoundingMode.HALF_UP);
+    assertEquals(new BigDecimal(10.80).setScale(2, RoundingMode.HALF_UP), price);
+  }
 
 
-    @Test(expected = InvalidSandwichException.class)
-    public void getInvalidSandwichExceptionNullIdAndNullIngredients() throws InvalidSandwichException
-    {
-        priceService = new PriceService(sandwichRepository, ingredientRepository);
-        Sandwich sandwich = new Sandwich();
-        sandwich.setId(null);
+  @Test
+  public void getSandwichPriceWithSandwichIdAllOffersTest() throws InvalidSandwichException {
+    priceService = new PriceService(sandwichRepository, ingredientRepository);
+    Sandwich sandwich = new Sandwich();
+    sandwich.setId(1L);
 
-        when(sandwichRepository.findById(1L)).thenReturn(Optional.empty());
-        BigDecimal price = priceService.getSandwichPrice(sandwich);
-        price.setScale(2, RoundingMode.HALF_UP);
-    }
+    when(sandwichRepository.findById(1L))
+        .thenReturn(Optional.of(TestUtils.createAllOffersSandwich()));
+
+    when(ingredientRepository.getOne(TestUtils.Ingredients.BACON.getId()))
+        .thenReturn(TestUtils.getBacon());
+    when(ingredientRepository.getOne(TestUtils.Ingredients.LETTUCE.getId()))
+        .thenReturn(TestUtils.getLettuce());
+    when(ingredientRepository.getOne(TestUtils.Ingredients.MEAT.getId()))
+        .thenReturn(TestUtils.getMeat());
+    when(ingredientRepository.getOne(TestUtils.Ingredients.CHEESE.getId()))
+        .thenReturn(TestUtils.getCheese());
+
+    BigDecimal price = priceService.getSandwichPrice(sandwich);
+    price = price.setScale(2, RoundingMode.HALF_UP);
+    assertEquals(new BigDecimal(17.1).setScale(2, RoundingMode.HALF_UP), price);
+  }
+
+
+  @Test
+  public void getSandwichPriceWithIngredientsSandwichNullIdTest() throws InvalidSandwichException {
+    priceService = new PriceService(sandwichRepository, ingredientRepository);
+    Sandwich sandwich = TestUtils.createSandwich();
+    sandwich.setId(null);
+
+    BigDecimal price = priceService.getSandwichPrice(sandwich);
+    price = price.setScale(2, RoundingMode.HALF_UP);
+    assertEquals(new BigDecimal(9).setScale(2, RoundingMode.HALF_UP), price);
+  }
+
+
+  @Test
+  public void getSandwichPriceWithIngredientsSandwichNotFound() throws InvalidSandwichException {
+    priceService = new PriceService(sandwichRepository, ingredientRepository);
+    Sandwich sandwich = TestUtils.createSandwich();
+    sandwich.setId(1L);
+
+    when(sandwichRepository.findById(1L)).thenReturn(Optional.empty());
+    BigDecimal price = priceService.getSandwichPrice(sandwich);
+    price = price.setScale(2, RoundingMode.HALF_UP);
+    assertEquals(new BigDecimal(9).setScale(2, RoundingMode.HALF_UP), price);
+  }
+
+
+  @Test(expected = InvalidSandwichException.class)
+  public void getInvalidSandwichExceptionNullIdAndNullIngredients()
+      throws InvalidSandwichException {
+    priceService = new PriceService(sandwichRepository, ingredientRepository);
+    Sandwich sandwich = new Sandwich();
+    sandwich.setId(null);
+
+    when(sandwichRepository.findById(1L)).thenReturn(Optional.empty());
+    BigDecimal price = priceService.getSandwichPrice(sandwich);
+    price.setScale(2, RoundingMode.HALF_UP);
+  }
 
 }

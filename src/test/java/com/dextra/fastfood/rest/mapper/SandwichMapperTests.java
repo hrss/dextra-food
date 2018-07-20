@@ -26,138 +26,128 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = SandwichMapperTests.class)
-public class SandwichMapperTests
-{
-    @Mock
-    private IngredientRepository ingredientRepository;
+public class SandwichMapperTests {
 
-    private SandwichMapper mapper;
+  @Mock
+  private IngredientRepository ingredientRepository;
 
-
-    @Before
-    public void initMocks()
-    {
-        MockitoAnnotations.initMocks(this);
-    }
+  private SandwichMapper mapper;
 
 
-    @Test
-    public void fromDtoTest()
-    {
-        mapper = new SandwichMapper(ingredientRepository);
-
-        HashMap<Long, Long> dtoMap = new HashMap<>();
-        dtoMap.put(1L, 2L);
-
-        SandwichDto dto = SandwichDto.builder()
-            .id(1L)
-            .name("Sandwich")
-            .ingredients(dtoMap)
-            .build();
-
-        when(ingredientRepository.getOne(1L)).thenReturn(TestUtils.getLettuce());
-
-        Sandwich sandwich = mapper.fromDto(dto);
+  @Before
+  public void initMocks() {
+    MockitoAnnotations.initMocks(this);
+  }
 
 
-        assertEquals(1L, sandwich.getId().longValue());
-        assertEquals("Sandwich", sandwich.getName());
+  @Test
+  public void fromDtoTest() {
+    mapper = new SandwichMapper(ingredientRepository);
 
-        sandwich.getSandwichIngredients().forEach(sI -> assertEquals(TestUtils.getLettuce(), sI.getIngredient()));
-    }
+    HashMap<Long, Long> dtoMap = new HashMap<>();
+    dtoMap.put(1L, 2L);
 
-    @Test
-    public void fromDtoNullIngredientsTest()
-    {
-        mapper = new SandwichMapper(ingredientRepository);
+    SandwichDto dto = SandwichDto.builder()
+        .id(1L)
+        .name("Sandwich")
+        .ingredients(dtoMap)
+        .build();
 
+    when(ingredientRepository.getOne(1L)).thenReturn(TestUtils.getLettuce());
 
-        SandwichDto dto = SandwichDto.builder()
-            .id(1L)
-            .name("Sandwich")
-            .ingredients(null)
-            .build();
+    Sandwich sandwich = mapper.fromDto(dto);
 
+    assertEquals(1L, sandwich.getId().longValue());
+    assertEquals("Sandwich", sandwich.getName());
 
-        Sandwich sandwich = mapper.fromDto(dto);
+    sandwich.getSandwichIngredients()
+        .forEach(sI -> assertEquals(TestUtils.getLettuce(), sI.getIngredient()));
+  }
 
+  @Test
+  public void fromDtoNullIngredientsTest() {
+    mapper = new SandwichMapper(ingredientRepository);
 
-        assertEquals(1L, sandwich.getId().longValue());
-        assertEquals("Sandwich", sandwich.getName());
-        assertEquals(0, sandwich.getSandwichIngredients().size());
-    }
+    SandwichDto dto = SandwichDto.builder()
+        .id(1L)
+        .name("Sandwich")
+        .ingredients(null)
+        .build();
 
+    Sandwich sandwich = mapper.fromDto(dto);
 
-    @Test
-    public void toDtoTest()
-    {
-        mapper = new SandwichMapper(ingredientRepository);
-
-        Sandwich sandwich = new Sandwich();
-        sandwich.setId(1L);
-        sandwich.setName("Sandwich");
-        sandwich.setSandwichIngredients(new HashSet<>());
-        SandwichIngredient sandwichIngredient = new SandwichIngredient();
-        sandwichIngredient.setSandwich(sandwich);
-        sandwichIngredient.setIngredient(TestUtils.getBacon());
-        sandwichIngredient.setQuantity(3L);
-
-        sandwich.getSandwichIngredients().add(sandwichIngredient);
-
-        SandwichDto dto = mapper.toDto(sandwich);
-
-        assertEquals(1L, dto.getId().longValue());
-        assertEquals("Sandwich", dto.getName());
-
-        dto.getIngredients().forEach((k, v) -> {
-            assertEquals(TestUtils.getBacon().getId(), k);
-            assertEquals(3L, v.longValue());
-        });
-
-    }
+    assertEquals(1L, sandwich.getId().longValue());
+    assertEquals("Sandwich", sandwich.getName());
+    assertEquals(0, sandwich.getSandwichIngredients().size());
+  }
 
 
-    @Test
-    public void toDtoListTest()
-    {
-        mapper = new SandwichMapper(ingredientRepository);
+  @Test
+  public void toDtoTest() {
+    mapper = new SandwichMapper(ingredientRepository);
 
-        Sandwich sandwich = new Sandwich();
-        sandwich.setId(1L);
-        sandwich.setName("Sandwich");
-        sandwich.setSandwichIngredients(new HashSet<>());
-        SandwichIngredient sandwichIngredient = new SandwichIngredient();
-        sandwichIngredient.setSandwich(sandwich);
-        sandwichIngredient.setIngredient(TestUtils.getBacon());
-        sandwichIngredient.setQuantity(3L);
-        sandwich.getSandwichIngredients().add(sandwichIngredient);
+    Sandwich sandwich = new Sandwich();
+    sandwich.setId(1L);
+    sandwich.setName("Sandwich");
+    sandwich.setSandwichIngredients(new HashSet<>());
+    SandwichIngredient sandwichIngredient = new SandwichIngredient();
+    sandwichIngredient.setSandwich(sandwich);
+    sandwichIngredient.setIngredient(TestUtils.getBacon());
+    sandwichIngredient.setQuantity(3L);
 
+    sandwich.getSandwichIngredients().add(sandwichIngredient);
 
-        Sandwich sandwich2 = new Sandwich();
-        sandwich2.setId(1L);
-        sandwich2.setName("Sandwich");
-        sandwich2.setSandwichIngredients(new HashSet<>());
-        SandwichIngredient sandwichIngredient2 = new SandwichIngredient();
-        sandwichIngredient2.setSandwich(sandwich2);
-        sandwichIngredient2.setIngredient(TestUtils.getBacon());
-        sandwichIngredient2.setQuantity(3L);
-        sandwich2.getSandwichIngredients().add(sandwichIngredient2);
+    SandwichDto dto = mapper.toDto(sandwich);
 
-        List<Sandwich> sandwiches = new ArrayList<>();
-        sandwiches.add(sandwich);
-        sandwiches.add(sandwich2);
+    assertEquals(1L, dto.getId().longValue());
+    assertEquals("Sandwich", dto.getName());
+
+    dto.getIngredients().forEach((k, v) -> {
+      assertEquals(TestUtils.getBacon().getId(), k);
+      assertEquals(3L, v.longValue());
+    });
+
+  }
 
 
-        List<SandwichDto> dtos = mapper.toDtoList(sandwiches);
+  @Test
+  public void toDtoListTest() {
+    mapper = new SandwichMapper(ingredientRepository);
 
-        dtos.forEach(dto -> {
-            assertEquals(1L, dto.getId().longValue());
-            assertEquals("Sandwich", dto.getName());
+    Sandwich sandwich = new Sandwich();
+    sandwich.setId(1L);
+    sandwich.setName("Sandwich");
+    sandwich.setSandwichIngredients(new HashSet<>());
+    SandwichIngredient sandwichIngredient = new SandwichIngredient();
+    sandwichIngredient.setSandwich(sandwich);
+    sandwichIngredient.setIngredient(TestUtils.getBacon());
+    sandwichIngredient.setQuantity(3L);
+    sandwich.getSandwichIngredients().add(sandwichIngredient);
 
-            dto.getIngredients().forEach((k, v) -> {
-                assertEquals(TestUtils.getBacon().getId(), k);
-                assertEquals(3L, v.longValue());
-            });
-        });
-    }
+    Sandwich sandwich2 = new Sandwich();
+    sandwich2.setId(1L);
+    sandwich2.setName("Sandwich");
+    sandwich2.setSandwichIngredients(new HashSet<>());
+    SandwichIngredient sandwichIngredient2 = new SandwichIngredient();
+    sandwichIngredient2.setSandwich(sandwich2);
+    sandwichIngredient2.setIngredient(TestUtils.getBacon());
+    sandwichIngredient2.setQuantity(3L);
+    sandwich2.getSandwichIngredients().add(sandwichIngredient2);
+
+    List<Sandwich> sandwiches = new ArrayList<>();
+    sandwiches.add(sandwich);
+    sandwiches.add(sandwich2);
+
+    List<SandwichDto> dtos = mapper.toDtoList(sandwiches);
+
+    dtos.forEach(dto -> {
+      assertEquals(1L, dto.getId().longValue());
+      assertEquals("Sandwich", dto.getName());
+
+      dto.getIngredients().forEach((k, v) -> {
+        assertEquals(TestUtils.getBacon().getId(), k);
+        assertEquals(3L, v.longValue());
+      });
+    });
+  }
 }
