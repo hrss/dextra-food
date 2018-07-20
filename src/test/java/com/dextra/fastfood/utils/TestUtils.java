@@ -173,6 +173,49 @@ public class TestUtils {
     return sandwich;
   }
 
+  public static Sandwich createLightSandwichZeroBacon() {
+    Sandwich sandwich = new Sandwich();
+    sandwich.setId(4L);
+    sandwich.setName("Light-Burguer");
+    sandwich.setSandwichIngredients(new HashSet<>());
+    sandwich.setDateCreated(ZonedDateTime.now());
+    sandwich.setDateUpdated(ZonedDateTime.now());
+
+    SandwichIngredient sandwichIngredient1 = new SandwichIngredient();
+    SandwichIngredient sandwichIngredient2 = new SandwichIngredient();
+    SandwichIngredient sandwichIngredient3 = new SandwichIngredient();
+    SandwichIngredient sandwichIngredient4 = new SandwichIngredient();
+
+
+    sandwichIngredient1.setId(new SandwichIngredientPK());
+    sandwichIngredient2.setId(new SandwichIngredientPK());
+    sandwichIngredient3.setId(new SandwichIngredientPK());
+
+    sandwichIngredient1.setIngredient(getCheese());
+    sandwichIngredient1.setSandwich(sandwich);
+    sandwichIngredient1.setQuantity(1L);
+
+    sandwichIngredient2.setIngredient(getMeat());
+    sandwichIngredient2.setSandwich(sandwich);
+    sandwichIngredient2.setQuantity(1L);
+
+    sandwichIngredient3.setIngredient(getLettuce());
+    sandwichIngredient3.setSandwich(sandwich);
+    sandwichIngredient3.setQuantity(1L);
+
+    sandwichIngredient4.setIngredient(getBacon());
+    sandwichIngredient4.setSandwich(sandwich);
+    sandwichIngredient4.setQuantity(0L);
+
+    sandwich.getSandwichIngredients().add(sandwichIngredient1);
+    sandwich.getSandwichIngredients().add(sandwichIngredient2);
+    sandwich.getSandwichIngredients().add(sandwichIngredient3);
+    sandwich.getSandwichIngredients().add(sandwichIngredient4);
+
+
+    return sandwich;
+  }
+
   public static Sandwich createAllOffersSandwich() {
     Sandwich sandwich = new Sandwich();
     sandwich.setId(5L);

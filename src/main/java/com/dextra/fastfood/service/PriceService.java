@@ -91,9 +91,11 @@ public class PriceService {
     }
 
     //Check if the sandwich is light
-    if (ingredients.containsKey(lettuce) && !ingredients.containsKey(bacon)) {
+    if (ingredients.containsKey(lettuce)) {
 
-      price = price.multiply(new BigDecimal(0.9));
+      if (!ingredients.containsKey(bacon) || ingredients.containsKey(bacon) && ingredients.get(bacon) == 0) {
+        price = price.multiply(new BigDecimal(0.9));
+      }
 
     }
 

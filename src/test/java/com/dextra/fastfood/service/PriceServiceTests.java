@@ -103,7 +103,7 @@ public class PriceServiceTests {
 
 
   @Test
-  public void getSandwichPriceWithSandwichIdLightOfferTest() throws InvalidSandwichException {
+  public void getSandwichPriceWithSandwichIdLightOfferNullBaconTest() throws InvalidSandwichException {
     priceService = new PriceService(sandwichRepository, ingredientRepository);
     Sandwich sandwich = new Sandwich();
     sandwich.setId(1L);
@@ -118,6 +118,28 @@ public class PriceServiceTests {
         .thenReturn(TestUtils.getMeat());
     when(ingredientRepository.getOne(TestUtils.Ingredients.CHEESE.getId()))
         .thenReturn(TestUtils.getCheese());
+
+    BigDecimal price = priceService.getSandwichPrice(sandwich);
+    price = price.setScale(2, RoundingMode.HALF_UP);
+    assertEquals(new BigDecimal(10.80).setScale(2, RoundingMode.HALF_UP), price);
+  }
+
+  @Test
+  public void getSandwichPriceWithSandwichIdLightOfferZeroBaconTest() throws InvalidSandwichException {
+    priceService = new PriceService(sandwichRepository, ingredientRepository);
+    Sandwich sandwich = new Sandwich();
+    sandwich.setId(1L);
+
+    when(sandwichRepository.findById(1L)).thenReturn(Optional.of(TestUtils.createLightSandwichZeroBacon()));
+
+    when(ingredientRepository.getOne(TestUtils.Ingredients.BACON.getId()))
+            .thenReturn(TestUtils.getBacon());
+    when(ingredientRepository.getOne(TestUtils.Ingredients.LETTUCE.getId()))
+            .thenReturn(TestUtils.getLettuce());
+    when(ingredientRepository.getOne(TestUtils.Ingredients.MEAT.getId()))
+            .thenReturn(TestUtils.getMeat());
+    when(ingredientRepository.getOne(TestUtils.Ingredients.CHEESE.getId()))
+            .thenReturn(TestUtils.getCheese());
 
     BigDecimal price = priceService.getSandwichPrice(sandwich);
     price = price.setScale(2, RoundingMode.HALF_UP);
