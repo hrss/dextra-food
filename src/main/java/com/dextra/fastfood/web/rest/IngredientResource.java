@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * The Ingredient resource (controller).
+ */
 @RestController
 @RequestMapping("/api/ingredient")
 @Service
@@ -26,6 +29,12 @@ public class IngredientResource
     private IngredientMapper mapper;
 
 
+    /**
+     * Instantiates a new Ingredient resource.
+     *
+     * @param ingredientService the ingredient service
+     * @param ingredientMapper  the ingredient mapper
+     */
     @Autowired
     public IngredientResource(IngredientService ingredientService, IngredientMapper ingredientMapper)
     {
@@ -34,6 +43,11 @@ public class IngredientResource
     }
 
 
+    /**
+     * Gets all ingredients.
+     *
+     * @return the all ingredients
+     */
     @GetMapping("")
     public ResponseEntity<List<IngredientDto>> getAllIngredients()
     {
@@ -47,6 +61,12 @@ public class IngredientResource
     }
 
 
+    /**
+     * Gets ingredient by id.
+     *
+     * @param ingredientId the ingredient id
+     * @return the ingredient
+     */
     @GetMapping("/{ingredientId}")
     public ResponseEntity<IngredientDto> getIngredient(@Valid @PathVariable long ingredientId)
     {

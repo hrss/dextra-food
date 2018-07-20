@@ -26,6 +26,9 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.format.annotation.DateTimeFormat;
 
+/**
+ * The type Sandwich.
+ */
 @Entity
 @Table(name = "sandwich")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -56,6 +59,11 @@ public class Sandwich
     private Set<SandwichIngredient> sandwichIngredients = new HashSet<SandwichIngredient>();
 
 
+    /**
+     * Gets ingredient map with ingredient as key and quantity as value.
+     *
+     * @return the ingredient map
+     */
     public Map<Ingredient, Long> getIngredientMap()
     {
         Map<Ingredient, Long> ingredients = new HashMap<>();

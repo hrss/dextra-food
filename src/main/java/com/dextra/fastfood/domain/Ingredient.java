@@ -21,6 +21,9 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.format.annotation.DateTimeFormat;
 
+/**
+ * The type Ingredient.
+ */
 @Entity
 @Table(name = "ingredient")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)

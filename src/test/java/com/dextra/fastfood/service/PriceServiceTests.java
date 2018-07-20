@@ -2,11 +2,13 @@ package com.dextra.fastfood.service;
 
 import com.dextra.fastfood.domain.Ingredient;
 import com.dextra.fastfood.domain.Sandwich;
+import com.dextra.fastfood.exception.InvalidSandwichException;
 import com.dextra.fastfood.repository.IngredientRepository;
 import com.dextra.fastfood.repository.SandwichRepository;
 import com.dextra.fastfood.utils.TestUtils;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.HashSet;
 import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,7 +44,7 @@ public class PriceServiceTests
 
 
     @Test
-    public void getSandwichPriceWithSandwichIdNoOfferTest()
+    public void getSandwichPriceWithSandwichIdNoOfferTest() throws InvalidSandwichException
     {
         priceService = new PriceService(sandwichRepository, ingredientRepository);
         Sandwich sandwich = new Sandwich();
@@ -54,8 +56,9 @@ public class PriceServiceTests
         assertEquals(new BigDecimal(9).setScale(2, RoundingMode.HALF_UP), price);
     }
 
+
     @Test
-    public void getSandwichPriceWithSandwichIdMeatOfferTest()
+    public void getSandwichPriceWithSandwichIdMeatOfferTest() throws InvalidSandwichException
     {
         priceService = new PriceService(sandwichRepository, ingredientRepository);
         Sandwich sandwich = new Sandwich();
@@ -77,7 +80,7 @@ public class PriceServiceTests
 
 
     @Test
-    public void getSandwichPriceWithSandwichIdCheeseOfferTest()
+    public void getSandwichPriceWithSandwichIdCheeseOfferTest() throws InvalidSandwichException
     {
         priceService = new PriceService(sandwichRepository, ingredientRepository);
         Sandwich sandwich = new Sandwich();
@@ -95,8 +98,9 @@ public class PriceServiceTests
         assertEquals(new BigDecimal(13).setScale(2, RoundingMode.HALF_UP), price);
     }
 
+
     @Test
-    public void getSandwichPriceWithSandwichIdLightOfferTest()
+    public void getSandwichPriceWithSandwichIdLightOfferTest() throws InvalidSandwichException
     {
         priceService = new PriceService(sandwichRepository, ingredientRepository);
         Sandwich sandwich = new Sandwich();
@@ -114,8 +118,9 @@ public class PriceServiceTests
         assertEquals(new BigDecimal(10.80).setScale(2, RoundingMode.HALF_UP), price);
     }
 
+
     @Test
-    public void getSandwichPriceWithSandwichIdAllOffersTest()
+    public void getSandwichPriceWithSandwichIdAllOffersTest() throws InvalidSandwichException
     {
         priceService = new PriceService(sandwichRepository, ingredientRepository);
         Sandwich sandwich = new Sandwich();
@@ -135,7 +140,7 @@ public class PriceServiceTests
 
 
     @Test
-    public void getSandwichPriceWithIngredientsSandwichNullIdTest()
+    public void getSandwichPriceWithIngredientsSandwichNullIdTest() throws InvalidSandwichException
     {
         priceService = new PriceService(sandwichRepository, ingredientRepository);
         Sandwich sandwich = TestUtils.createSandwich();
@@ -146,12 +151,13 @@ public class PriceServiceTests
         assertEquals(new BigDecimal(9).setScale(2, RoundingMode.HALF_UP), price);
     }
 
+
     @Test
-    public void getSandwichPriceWithIngredientsSandwichNotFound()
+    public void getSandwichPriceWithIngredientsSandwichNotFound() throws InvalidSandwichException
     {
         priceService = new PriceService(sandwichRepository, ingredientRepository);
         Sandwich sandwich = TestUtils.createSandwich();
-        sandwich.setId(null);
+        sandwich.setId(1L);
 
         when(sandwichRepository.findById(1L)).thenReturn(Optional.empty());
         BigDecimal price = priceService.getSandwichPrice(sandwich);
@@ -159,5 +165,17 @@ public class PriceServiceTests
         assertEquals(new BigDecimal(9).setScale(2, RoundingMode.HALF_UP), price);
     }
 
+
+    @Test(expected = InvalidSandwichException.class)
+    public void getInvalidSandwichExceptionNullIdAndNullIngredients() throws InvalidSandwichException
+    {
+        priceService = new PriceService(sandwichRepository, ingredientRepository);
+        Sandwich sandwich = new Sandwich();
+        sandwich.setId(null);
+
+        when(sandwichRepository.findById(1L)).thenReturn(Optional.empty());
+        BigDecimal price = priceService.getSandwichPrice(sandwich);
+        price.setScale(2, RoundingMode.HALF_UP);
+    }
 
 }

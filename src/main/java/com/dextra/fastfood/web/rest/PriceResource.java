@@ -1,5 +1,6 @@
 package com.dextra.fastfood.web.rest;
 
+import com.dextra.fastfood.exception.InvalidSandwichException;
 import com.dextra.fastfood.service.PriceService;
 import com.dextra.fastfood.web.rest.dto.SandwichDto;
 import com.dextra.fastfood.web.rest.mapper.SandwichMapper;
@@ -16,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * The Price resource (controller).
+ */
 @RestController
 @RequestMapping("/api")
 @Service
@@ -27,23 +31,33 @@ public class PriceResource
 
     private final SandwichMapper sandwichMapper;
 
+
+    /**
+     * Instantiates a new Price resource.
+     *
+     * @param priceService   the price service
+     * @param sandwichMapper the sandwich mapper
+     */
     @Autowired
-    public PriceResource(final PriceService priceService, final SandwichMapper sandwichMapper) {
+    public PriceResource(final PriceService priceService, final SandwichMapper sandwichMapper)
+    {
         this.priceService = priceService;
         this.sandwichMapper = sandwichMapper;
     }
 
+
     /**
-     * POST  /images : Create a new image.
+     * Gets the price of a sandwich.
      *
-     * @param image the image to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new image, or with status 400 (Bad Request) if the image has already an ID
-     * @throws URISyntaxException if the Location URI syntax is incorrect
+     * @param sandwich the sandwich
+     * @return the sandwich price
+     * @throws InvalidSandwichException if the sandwich has no ingredients or id
      */
     @RequestMapping(value = "/price",
         method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<BigDecimal> getPrice(@RequestBody SandwichDto sandwich) throws URISyntaxException {
+    public ResponseEntity<BigDecimal> getPrice(@RequestBody SandwichDto sandwich) throws InvalidSandwichException
+    {
         log.debug("REST request get a sandwich price : {}", sandwich);
 
         BigDecimal price = priceService.getSandwichPrice(sandwichMapper.fromDto(sandwich));

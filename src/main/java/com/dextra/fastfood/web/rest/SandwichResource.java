@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * The Sandwich resource.
+ */
 @RestController
 @RequestMapping("/api/sandwich")
 @Service
@@ -24,12 +27,24 @@ public class SandwichResource
     private SandwichMapper mapper;
 
 
+    /**
+     * Instantiates a new Sandwich resource.
+     *
+     * @param sandwichService the sandwich service
+     * @param sandwichMapper  the sandwich mapper
+     */
     public SandwichResource(final SandwichService sandwichService, SandwichMapper sandwichMapper)
     {
         this.sandwichService = sandwichService;
         this.mapper = sandwichMapper;
     }
 
+
+    /**
+     * Gets all sandwiches.
+     *
+     * @return the all sandwiches
+     */
     @GetMapping("")
     public ResponseEntity<List<SandwichDto>> getAllSandwiches()
     {
@@ -42,6 +57,13 @@ public class SandwichResource
             .orElse(new ResponseEntity<List<SandwichDto>>(HttpStatus.NOT_FOUND));
     }
 
+
+    /**
+     * Gets sandwich by its id.
+     *
+     * @param sandwichId the sandwich id
+     * @return the sandwich
+     */
     @GetMapping("/{sandwichId}")
     public ResponseEntity<SandwichDto> getSandwich(@Valid @PathVariable long sandwichId)
     {

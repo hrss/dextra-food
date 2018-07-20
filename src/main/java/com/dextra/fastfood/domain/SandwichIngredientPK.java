@@ -6,6 +6,10 @@ import javax.persistence.Embeddable;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * The type Sandwich ingredient pk. It's the key
+ * of the many to many relationship between sandwiches and ingredients.
+ */
 @Embeddable
 @Getter
 @Setter

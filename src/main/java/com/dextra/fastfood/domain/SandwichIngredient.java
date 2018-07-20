@@ -14,6 +14,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
+/**
+ * The type Sandwich ingredient.
+ * It serves as a middle man in the many to many relationship
+ * that exists between sandwiches and ingredients.
+ * It also holds the quantity of a certain ingredient in a sandwich.
+ */
 @Entity
 @Table(name = "sandwich_ingredient")
 @Getter

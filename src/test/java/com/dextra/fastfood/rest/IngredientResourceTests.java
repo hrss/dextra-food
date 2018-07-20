@@ -109,4 +109,15 @@ public class IngredientResourceTests
 
         verify(ingredientService, times(1)).getById(anyLong());
     }
+
+    @Test
+    public void getOneIngredientNotFound() throws Exception
+    {
+
+        mockMvc.perform(get("/api/ingredient/2"))
+            .andExpect(status().isNotFound())
+            .andDo(print());
+
+        verify(ingredientService, times(1)).getById(anyLong());
+    }
 }

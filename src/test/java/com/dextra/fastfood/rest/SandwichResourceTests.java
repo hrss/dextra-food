@@ -119,4 +119,15 @@ public class SandwichResourceTests
 
         verify(sandwichService, times(1)).getById(anyLong());
     }
+
+    @Test
+    public void getOneSandwichNotFound() throws Exception
+    {
+
+        mockMvc.perform(get("/api/sandwich/1"))
+            .andExpect(status().isNotFound())
+            .andDo(print());
+
+        verify(sandwichService, times(1)).getById(anyLong());
+    }
 }
