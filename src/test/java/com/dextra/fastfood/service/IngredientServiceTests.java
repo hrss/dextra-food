@@ -5,16 +5,18 @@ import com.dextra.fastfood.repository.IngredientRepository;
 import com.dextra.fastfood.utils.TestUtils;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = IngredientServiceTests.class)
 public class IngredientServiceTests {
 
@@ -22,6 +24,11 @@ public class IngredientServiceTests {
   private IngredientRepository ingredientRepository;
 
   private IngredientService ingredientService;
+
+  @Before
+  public void initMocks() {
+    MockitoAnnotations.initMocks(this);
+  }
 
   @Test
   public void getIngredientById() {
