@@ -24,6 +24,9 @@
     </style>
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="node_modules/jquery-smartcart/dist/css/smart_cart.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+
 
     <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 </head>
@@ -53,44 +56,55 @@
 <!-- Main jumbotron for a primary marketing message or call to action -->
 <div class="jumbotron">
     <div class="container">
-        <h1>Consulte o preço:</h1>
-        <h1 id="price"></h1>
+        <h1>Os melhores lanches</h1>
 
     </div>
 </div>
 
 <div class="container">
     <!-- Example row of columns -->
-    <div class="row">
+    <div class="sc-product-item">
         <div class="col-md-4">
-            <h2>Escolha por lanche:</h2>
-            <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
-                <option selected>Choose...</option>
+            <h2>Escolha o lanche:</h2>
+            <select style="width: 162px; margin-bottom: 10px;" id="inlineFormCustomSelectPref" onchange="doStuff()">
+                <option selected value="none">Escolha...</option>
             </select>
-            <button type="submit" onclick="getPriceBySandwich()" class="btn btn-primary my-1">Submit</button>
+            <button class="sc-add-to-cart btn btn-success" id="add" type="submit" onclick="getPriceBySandwich()"
+                    disabled>
+                Adicionar ao carrinho!
+            </button>
+            <h3 id="price"></h3>
+            <input name="product_price" id="pPrice" value="0" type="hidden"/>
+            <input name="product_name" id="pName" value="" type="hidden"/>
+            <img data-name="product_image" src="img/hamburger.jpg" style="display: none;">
+
+
+        </div>
+
+        <div class="col-md-4">
+            <div id="ingredientsDiv">
+                <h2>Escolha os ingredientes:</h2>
+                <div class="form-group" id="ingredients">
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-4">
-            <h2>Escolha por ingredientes:</h2>
-            <div class="form-group" id="ingredients">
-            </div>
-            <button type="submit" onclick="getPriceByIngredients()" class="btn btn-primary my-1">Submit</button>
-        </div>
+    <div class="col-md-4 col-sm-6">
+        <!-- SmartCart element -->
+        <div id="smartcart"></div>
     </div>
 
     <hr>
 
-    <footer>
-        <p>&copy; Dextra 2018</p>
-    </footer>
 </div> <!-- /container -->
+
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
 
 <script src="js/vendor/bootstrap.min.js"></script>
-
+<script type="text/javascript" src="node_modules/jquery-smartcart/dist/js/jquery.smartCart.min.js"></script>
 <script src="js/main.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
 </body>
 </html>

@@ -4,11 +4,11 @@
 
 -- Creating Ingredients
 
-insert into ingredient (id, date_created, date_updated, name, price) values (1, now(), now(), 'Lettuce', 0.40);
+insert into ingredient (id, date_created, date_updated, name, price) values (1, now(), now(), 'Alface', 0.40);
 insert into ingredient (id, date_created, date_updated, name, price) values (2, now(), now(), 'Bacon', 2.00);
 insert into ingredient (id, date_created, date_updated, name, price) values (3, now(), now(), 'Hamburger', 3.00);
-insert into ingredient (id, date_created, date_updated, name, price) values (4, now(), now(), 'Egg', 0.80);
-insert into ingredient (id, date_created, date_updated, name, price) values (5, now(), now(), 'Cheese', 1.50);
+insert into ingredient (id, date_created, date_updated, name, price) values (4, now(), now(), 'Ovo', 0.80);
+insert into ingredient (id, date_created, date_updated, name, price) values (5, now(), now(), 'Queijo', 1.50);
 
 
 
