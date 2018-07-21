@@ -14,6 +14,7 @@ pipeline {
         sh 'mvn -B -DskipTests clean package'
         sh 'ls'
         stash(name: 'app', includes: 'target/**/*')
+        stash(name: 'scripts', includes: 'jenkins/**/*')
       }
     }
     stage('Test') {
@@ -46,6 +47,12 @@ pipeline {
       agent any
       steps {
         sh 'docker push hrss/dextra-food'
+      }
+    }
+    stage('Deliver') {
+      steps {
+        unstash 'scripts'
+        sh 'jenkins/deliver.sh'
       }
     }
   }
