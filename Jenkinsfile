@@ -50,6 +50,7 @@ pipeline {
       }
     }
     stage('Deliver') {
+      agent any
       steps {
         unstash 'scripts'
         sh 'jenkins/deliver.sh'
