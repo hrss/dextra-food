@@ -6,7 +6,7 @@ var $ingDiv = $("#ingredientsDiv");
 $ingDiv.hide();
 
 $.ajax({
-    url: "http://localhost:8080/api/sandwich",
+    url: "/api/sandwich",
     data: "",
     success: function (result) {
         var $dropdown = $("#inlineFormCustomSelectPref");
@@ -21,7 +21,7 @@ $.ajax({
 
 
 $.ajax({
-    url: "http://localhost:8080/api/ingredient",
+    url: "/api/ingredient",
     data: "",
     success: function (result) {
         var $formDiv = $("#ingredients");
@@ -44,7 +44,7 @@ function getPriceBySandwich() {
     data.id = $dropdown.val();
 
     $.ajax({
-        url: "http://localhost:8080/api/price/",
+        url: "/api/price/",
         type: "POST",
         contentType: 'application/json',
         data: JSON.stringify(data),
@@ -78,7 +78,7 @@ function getPriceByIngredients(sandwichId) {
     });
 
     $.ajax({
-        url: "http://localhost:8080/api/price/",
+        url: "/api/price/",
         type: "POST",
         contentType: 'application/json',
         data: JSON.stringify(data),
