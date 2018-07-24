@@ -12,7 +12,6 @@ pipeline {
       steps {
         sh 'pwd'
         sh 'mvn -B -DskipTests clean package'
-        sh 'ls'
         stash(name: 'app', includes: 'target/**/*')
         stash(name: 'scripts', includes: 'jenkins/**/*')
       }
@@ -52,8 +51,6 @@ pipeline {
     stage('Deliver') {
       agent any
       steps {
-        sh 'ls'
-        sh 'pwd'
         unstash 'scripts'
         sh 'bash jenkins/scripts/deliver.sh'
       }
