@@ -52,8 +52,10 @@ pipeline {
     stage('Deliver') {
       agent any
       steps {
+        sh 'ls'
+        sh 'pwd'
         unstash 'scripts'
-        sh 'jenkins/deliver.sh'
+        sh 'bash jenkins/scripts/deliver.sh'
       }
     }
   }
